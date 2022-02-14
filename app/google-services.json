@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "167135577213",
+    "project_id": "ubercourse-fe98d",
+    "storage_bucket": "ubercourse-fe98d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:167135577213:android:845f1dc29920e0d784dd14",
+        "android_client_info": {
+          "package_name": "com.doubleclick.uber"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "167135577213-dnbfg51nj2ig5906aika2f80dldvsb97.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_-sZj1YOBaQT37Z4VYm6olHOWJINTckc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "167135577213-dnbfg51nj2ig5906aika2f80dldvsb97.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
