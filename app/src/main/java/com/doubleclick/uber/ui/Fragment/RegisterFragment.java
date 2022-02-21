@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,9 +28,9 @@ public class RegisterFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
 
 
-    private EditText email, username,password,C_password;
+    private EditText email, username, password, C_password;
     private FirebaseAuth mAuth;
-    private Button Register;
+    private Button Register, iHave;
     private ProgressBar progressBar;
     private DatabaseReference UserRef;
 
@@ -38,10 +39,13 @@ public class RegisterFragment extends Fragment {
     }
 
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+    }
+
+    public void M(String i) {
 
     }
 
@@ -56,48 +60,60 @@ public class RegisterFragment extends Fragment {
         C_password = view.findViewById(R.id.confarmpassword);
         Register = view.findViewById(R.id.Register);
         progressBar = view.findViewById(R.id.progressBar);
+        iHave = view.findViewById(R.id.ihave);
         UserRef = FirebaseDatabase.getInstance().getReference("Users");
         mAuth = FirebaseAuth.getInstance();
         Register.setOnClickListener(v -> {
-            LogIn(email.getText().toString(),password.getText().toString());
+            LogIn(email.getText().toString(), password.getText().toString());
             progressBar.setVisibility(View.VISIBLE);
+        });
+        iHave.setOnClickListener(v -> {
+            StartFragment(new LoginFragment());
         });
 
         return view;
     }
 
     private void LogIn(String email, String password) {
-        if (ConfarmData()){
-            mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(task -> {
-                if (task.isSuccessful()){
+        if (ConfarmData()) {
+            mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
                     progressBar.setVisibility(View.GONE);
                     String id = mAuth.getCurrentUser().getUid().toString();
-                    HashMap<String,Object> map = new HashMap<>();
-                    map.put("name",username.getText().toString());
-                    map.put("password",password);
-                    map.put("email",email);
-                    map.put("image","default");
-                    map.put("id",id);
+                    HashMap<String, Object> map = new HashMap<>();
+                    map.put("name", username.getText().toString());
+                    map.put("password", password);
+                    map.put("email", email);
+                    map.put("image", "default");
+                    map.put("id", id);
                     UserRef.child(id).setValue(map);
                     startActivity(new Intent(getContext(), MapsActivity.class));
-                }else {
+                } else {
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(getContext(), "Check Internet", Toast.LENGTH_SHORT).show();
                 }
             });
-        }else {
+        } else {
             Toast.makeText(getContext(), "Check input...", Toast.LENGTH_SHORT).show();
         }
 
     }
 
-    private boolean ConfarmData(){
-        if (!password.getText().toString().equals("")||password.getText().toString()!=null&&
-                !email.getText().toString().equals("")||email.getText().toString()!=null&&
-        !C_password.getText().toString().equals("")||C_password.getText().toString()!=null&&
-        !username.getText().toString().equals("")||username.getText().toString()!=null){
+
+    private void StartFragment(Fragment login) {
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.lefttoright, R.anim.righttoleft);
+        transaction.replace(R.id.mainFrgment, login);
+        transaction.commit();
+    }
+
+    private boolean ConfarmData() {
+        if (!password.getText().toString().equals("") || password.getText().toString() != null &&
+                !email.getText().toString().equals("") || email.getText().toString() != null &&
+                !C_password.getText().toString().equals("") || C_password.getText().toString() != null &&
+                !username.getText().toString().equals("") || username.getText().toString() != null) {
             return true;
-        }else {
+        } else {
             return false;
         }
 
